@@ -1,22 +1,20 @@
 package com.app.security_scanner.controller;
 
+import com.app.security_scanner.common.BaseController;
 import com.app.security_scanner.dto.response.ApiResponse;
 import com.app.security_scanner.util.ApiConstants;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(ApiConstants.API_PREFIX)
-public class HealthController {
+public class HealthController extends BaseController {
 
     @GetMapping("/health")
-    public ApiResponse<String> health() {
+    public ResponseEntity<ApiResponse<String>> health() {
 
-        return ApiResponse.<String>builder()
-                .success(true)
-                .message("API running")
-                .data("OK")
-                .build();
+        return success("Hello my app");
     }
 }
