@@ -1,10 +1,9 @@
 package com.app.security_scanner.dto.response;
-
-
-import com.app.security_scanner.entity.ScanStatus;
+import com.app.security_scanner.enums.ScanStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.List;
 
 public record ScanResponse(
 
@@ -20,7 +19,9 @@ public record ScanResponse(
 
         Long responseTime,
 
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+
+        List<ScanIssueResponse> issues
 
 ) {
 }

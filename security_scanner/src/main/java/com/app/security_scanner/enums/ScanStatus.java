@@ -1,4 +1,4 @@
-package com.app.security_scanner.entity;
+package com.app.security_scanner.enums;
 
 public enum ScanStatus {
     PENDING,

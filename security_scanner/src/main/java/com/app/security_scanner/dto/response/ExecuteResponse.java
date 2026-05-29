@@ -1,12 +1,15 @@
 package com.app.security_scanner.dto.response;
 
-import java.util.Map;
+import org.springframework.http.HttpHeaders;
 
 public record ExecuteResponse(
 
         int status,
-        Map<String, String> headers,
+
+        HttpHeaders headers,
+
         String body,
+
         long responseTime
 
 ) {

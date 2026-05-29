@@ -1,8 +1,10 @@
 package com.app.security_scanner.entity;
-
+import com.app.security_scanner.enums.ScanStatus;
 import jakarta.persistence.*;
-
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "scans")
@@ -11,7 +13,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Scan extends BaseEntity{
+public class Scan extends BaseEntity {
 
     private String targetUrl;
 
@@ -26,7 +28,17 @@ public class Scan extends BaseEntity{
     @Column(columnDefinition = "TEXT")
     private String requestBody;
 
+    @Column(columnDefinition = "TEXT")
+    private String responseBody;
+
     private Integer responseStatus;
 
     private Long responseTime;
+
+    @OneToMany(
+            mappedBy = "scan",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ScanIssue> issues = new ArrayList<>();
 }

@@ -1,4 +1,4 @@
-package com.app.security_scanner.service.Impl;
+package com.app.security_scanner.service.impl;
 
 import com.app.security_scanner.dto.request.ExecuteRequest;
 import com.app.security_scanner.dto.response.ExecuteResponse;
@@ -8,9 +8,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +31,7 @@ public class RequestExecutorServiceImpl
                         )
                 )
                 .uri(request.url())
+
                 .headers(headers -> {
 
                     if (request.headers() != null) {
@@ -42,32 +40,24 @@ public class RequestExecutorServiceImpl
                                 .forEach(headers::add);
                     }
                 })
+
                 .bodyValue(
                         request.body() != null
                                 ? request.body()
                                 : ""
                 )
-                .retrieve()
-                .toEntity(String.class)
+
+                .exchangeToMono(clientResponse ->
+                        clientResponse.toEntity(String.class)
+                )
+
                 .block();
 
         long end = System.currentTimeMillis();
 
-        Map<String, String> responseHeaders =
-                new HashMap<>();
-
-        response.getHeaders()
-                .forEach((key, value) -> {
-
-                    responseHeaders.put(
-                            key,
-                            String.join(",", value)
-                    );
-                });
-
         return new ExecuteResponse(
                 response.getStatusCode().value(),
-                responseHeaders,
+                response.getHeaders(),
                 response.getBody(),
                 end - start
         );

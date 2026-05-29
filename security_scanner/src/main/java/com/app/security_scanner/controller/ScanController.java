@@ -1,7 +1,7 @@
 package com.app.security_scanner.controller;
 
 import com.app.security_scanner.common.BaseController;
-import com.app.security_scanner.dto.request.CreateScanRequest;
+import com.app.security_scanner.dto.request.ExecuteRequest;
 import com.app.security_scanner.dto.response.ApiResponse;
 import com.app.security_scanner.dto.response.ScanResponse;
 import com.app.security_scanner.service.ScanService;
@@ -22,14 +22,21 @@ public class ScanController extends BaseController {
 
     private final ScanService scanService;
 
+
     @PostMapping
-    public ResponseEntity<ApiResponse<ScanResponse>> createScan(
-            @Valid @RequestBody CreateScanRequest request
+    public ResponseEntity<ApiResponse<ScanResponse>>
+    scan(
+
+            @Valid
+            @RequestBody
+            ExecuteRequest request
+
     ) {
 
-        return created(
-                scanService.createScan(request)
-        );
+        ScanResponse response =
+                scanService.scan(request);
+
+        return success(response);
     }
 
     @GetMapping("/{id}")
