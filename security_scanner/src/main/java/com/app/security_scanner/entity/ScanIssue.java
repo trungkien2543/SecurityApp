@@ -21,10 +21,16 @@ public class ScanIssue extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Severity severity;
 
+    @Column(nullable = false)
+    private String title;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(columnDefinition = "TEXT")
+    private String recommendation;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "scan_id")
-    private Scan scan;
+    private Scan scan;  // ← có rồi nhưng thiếu trong @Builder
 }

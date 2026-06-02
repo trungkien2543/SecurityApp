@@ -21,6 +21,8 @@ public record ScanResponse(
 
         LocalDateTime createdAt,
 
+        String errorMessage,
+
         List<ScanIssueResponse> issues
 
 ) {

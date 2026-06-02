@@ -35,10 +35,14 @@ public class Scan extends BaseEntity {
 
     private Long responseTime;
 
+    @Column(columnDefinition = "TEXT")
+    private String errorMessage;      // ← thêm field này
+
     @OneToMany(
             mappedBy = "scan",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @Builder.Default
     private List<ScanIssue> issues = new ArrayList<>();
 }
