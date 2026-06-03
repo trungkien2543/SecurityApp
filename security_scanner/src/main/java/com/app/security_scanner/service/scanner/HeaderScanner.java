@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class HeaderScanner implements SecurityScanner{
+public class HeaderScanner extends BaseScanner{
 
     // Static vì rules không thay đổi theo request
     // Final vì không ai được phép sửa list này sau khi khởi tạo
@@ -115,19 +115,6 @@ public class HeaderScanner implements SecurityScanner{
                     )
                     .build());
         }
-    }
-
-    // ✅ Mới — nhận HttpHeaders, lấy first value của mỗi header
-    private Map<String, String> normalizeHeaders(HttpHeaders headers) {
-        if (headers == null) return Map.of();
-        var normalized = new HashMap<String, String>();
-        headers.forEach((key, values) -> {
-            if (values != null && !values.isEmpty()) {
-                // Lấy value đầu tiên — đủ dùng cho security check
-                normalized.put(key.toLowerCase(), values.get(0));
-            }
-        });
-        return normalized;
     }
 
     // Inner record — gom data của 1 rule lại, thay vì 5 array riêng lẻ
