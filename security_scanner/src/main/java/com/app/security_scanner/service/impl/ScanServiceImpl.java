@@ -56,7 +56,7 @@ public class ScanServiceImpl implements ScanService {
 
             // Security scan chạy sau khi có response
             List<ScanIssue> issues =
-                    securityScanService.scanAndBuildIssues(response, scan);
+                    securityScanService.scanAndBuildIssues(request, response, scan);
             scan.getIssues().addAll(issues);
             // Không cần save issues riêng — CascadeType.ALL tự lo
 
