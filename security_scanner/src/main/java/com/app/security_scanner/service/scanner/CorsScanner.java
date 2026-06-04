@@ -1,7 +1,7 @@
 package com.app.security_scanner.service.scanner;
 
 import com.app.security_scanner.dto.response.ExecuteResponse;
-import com.app.security_scanner.entity.Finding;
+import com.app.security_scanner.model.Finding;
 import com.app.security_scanner.enums.Severity;
 import com.app.security_scanner.enums.VulnerabilityType;
 import org.springframework.stereotype.Component;

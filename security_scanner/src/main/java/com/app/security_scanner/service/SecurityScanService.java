@@ -2,11 +2,12 @@ package com.app.security_scanner.service;
 
 import com.app.security_scanner.dto.request.ExecuteRequest;
 import com.app.security_scanner.dto.response.ExecuteResponse;
-import com.app.security_scanner.entity.Finding;
+import com.app.security_scanner.model.Finding;
 import com.app.security_scanner.entity.Scan;
 import com.app.security_scanner.entity.ScanIssue;
 import com.app.security_scanner.service.scanner.RateLimitScanner;
 import com.app.security_scanner.service.scanner.SecurityScanner;
+import com.app.security_scanner.service.scanner.SwaggerExposureScanner;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ public class SecurityScanService {
 
     private final RateLimitScanner rateLimitScanner;
 
+    private final SwaggerExposureScanner swaggerExposureScanner;
+
     public List<ScanIssue> scanAndBuildIssues(
             ExecuteRequest request,   // ← thêm request vào đây
             ExecuteResponse response,
@@ -38,6 +41,9 @@ public class SecurityScanService {
 
         // Chạy rate limit scanner riêng vì cần request
         findings.addAll(rateLimitScanner.scanWithRequest(request));
+
+        // Chạy swagger scan
+        findings.addAll(swaggerExposureScanner.scan(request));
 
         log.info("Security scan done — {} finding(s) for url={}",
                 findings.size(), scan.getTargetUrl());

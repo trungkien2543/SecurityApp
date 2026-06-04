@@ -1,15 +1,12 @@
 package com.app.security_scanner.service.scanner;
 
 import com.app.security_scanner.dto.response.ExecuteResponse;
-import com.app.security_scanner.entity.Finding;
+import com.app.security_scanner.model.Finding;
 import com.app.security_scanner.enums.Severity;
 import com.app.security_scanner.enums.VulnerabilityType;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

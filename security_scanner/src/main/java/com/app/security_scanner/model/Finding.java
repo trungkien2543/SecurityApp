@@ -1,4 +1,4 @@
-package com.app.security_scanner.entity;
+package com.app.security_scanner.model;
 
 import com.app.security_scanner.enums.Severity;
 import com.app.security_scanner.enums.VulnerabilityType;
