@@ -5,6 +5,7 @@ import com.app.security_scanner.dto.response.ExecuteResponse;
 import com.app.security_scanner.model.Finding;
 import com.app.security_scanner.entity.Scan;
 import com.app.security_scanner.entity.ScanIssue;
+import com.app.security_scanner.service.scanner.DangerousMethodScanner;
 import com.app.security_scanner.service.scanner.RateLimitScanner;
 import com.app.security_scanner.service.scanner.SecurityScanner;
 import com.app.security_scanner.service.scanner.SwaggerExposureScanner;
@@ -29,6 +30,8 @@ public class SecurityScanService {
 
     private final SwaggerExposureScanner swaggerExposureScanner;
 
+    private final DangerousMethodScanner dangerousMethodScanner;
+
     public List<ScanIssue> scanAndBuildIssues(
             ExecuteRequest request,   // ← thêm request vào đây
             ExecuteResponse response,
@@ -44,6 +47,8 @@ public class SecurityScanService {
 
         // Chạy swagger scan
         findings.addAll(swaggerExposureScanner.scan(request));
+
+        findings.addAll(dangerousMethodScanner.scan(request));
 
         log.info("Security scan done — {} finding(s) for url={}",
                 findings.size(), scan.getTargetUrl());
