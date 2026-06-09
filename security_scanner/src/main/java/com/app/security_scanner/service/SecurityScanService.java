@@ -5,10 +5,7 @@ import com.app.security_scanner.dto.response.ExecuteResponse;
 import com.app.security_scanner.model.Finding;
 import com.app.security_scanner.entity.Scan;
 import com.app.security_scanner.entity.ScanIssue;
-import com.app.security_scanner.service.scanner.DangerousMethodScanner;
-import com.app.security_scanner.service.scanner.RateLimitScanner;
-import com.app.security_scanner.service.scanner.SecurityScanner;
-import com.app.security_scanner.service.scanner.SwaggerExposureScanner;
+import com.app.security_scanner.service.scanner.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +20,6 @@ import java.util.stream.Collectors;
 public class SecurityScanService {
 
     // Spring inject tất cả bean implement SecurityScanner vào đây
-    // Day 6 thêm CorsScanner @Component → tự động có trong list này
     private final List<SecurityScanner> scanners;
 
     private final RateLimitScanner rateLimitScanner;
@@ -31,6 +27,9 @@ public class SecurityScanService {
     private final SwaggerExposureScanner swaggerExposureScanner;
 
     private final DangerousMethodScanner dangerousMethodScanner;
+
+    private final HttpsScanner httpsScanner;
+
 
     public List<ScanIssue> scanAndBuildIssues(
             ExecuteRequest request,   // ← thêm request vào đây
@@ -48,7 +47,12 @@ public class SecurityScanService {
         // Chạy swagger scan
         findings.addAll(swaggerExposureScanner.scan(request));
 
+
         findings.addAll(dangerousMethodScanner.scan(request));
+
+
+        findings.addAll(httpsScanner.scanUrl(request.url()));
+
 
         log.info("Security scan done — {} finding(s) for url={}",
                 findings.size(), scan.getTargetUrl());
